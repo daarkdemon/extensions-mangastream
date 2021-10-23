@@ -4,14 +4,14 @@ import {
     SearchRequest,
 } from 'paperback-extensions-common'
 import { MangaStream } from '../MangaStream'
-import { AsuraScans } from '../AsuraScans/AsuraScans'
+import { XcalibrScans } from '../XcalibrScans/XcalibrScans'
 import chai from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
-describe('AsuraScans Tests', () => {
+describe('XcalibrScans Tests', () => {
 
     const wrapper: APIWrapper = new APIWrapper()
-    const source: MangaStream = new AsuraScans(cheerio)
+    const source: MangaStream = new XcalibrScans(cheerio)
     const expect = chai.expect
     chai.use(chaiAsPromised)
 
@@ -20,18 +20,19 @@ describe('AsuraScans Tests', () => {
    * Try to choose a manga which is updated frequently, so that the historical checking test can
    * return proper results, as it is limited to searching 30 days back due to extremely long processing times otherwise.
    */
-    const mangaId = 'legend-of-asura-the-venom-dragon' // secret-class
+    const mangaId = 'martial-god-asura' // secret-class
 
     it('Retrieve Manga Details', async () => {
         const details = await wrapper.getMangaDetails(source, mangaId)
         expect(details, 'No results found with test-defined ID [' + mangaId + ']').to.exist
+        console.log(details)
         // Validate that the fields are filled
         const data = details
         expect(data.image, 'Missing Image').to.be.not.empty
         expect(data.status, 'Missing Status').to.exist
         expect(data.desc, 'Missing Description').to.be.not.empty
         expect(data.titles, 'Missing Titles').to.be.not.empty
-        //expect(data.rating, 'Missing Rating').to.exist
+        expect(data.rating, 'Missing Rating').to.exist
     })
 
     it('Get Chapters', async () => {
