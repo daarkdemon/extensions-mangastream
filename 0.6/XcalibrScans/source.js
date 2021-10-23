@@ -1762,85 +1762,57 @@ exports.MangaStreamParser = MangaStreamParser;
 },{"./LanguageUtils":57,"entities":8,"paperback-extensions-common":14}],60:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SkyMangas = exports.SkyMangasInfo = void 0;
+exports.XcalibrScans = exports.XcalibrScansInfo = void 0;
 /* eslint-disable linebreak-style */
 const paperback_extensions_common_1 = require("paperback-extensions-common");
 const MangaStream_1 = require("../MangaStream");
-const SKYMANGAS_DOMAIN = 'https://skymangas.com';
-exports.SkyMangasInfo = {
+const XS_DOMAIN = 'https://xcalibrscans.com';
+exports.XcalibrScansInfo = {
     version: MangaStream_1.getExportVersion('0.0.0'),
-    name: 'SkyMangas',
-    description: 'Extension that pulls manga from SkyMangas',
-    author: 'Netsky',
-    authorWebsite: 'http://github.com/TheNetsky',
+    name: 'XcalibrScans',
+    description: 'Extension that pulls manga from XcalibrScans',
+    author: 'darkdemon',
+    authorWebsite: 'https://github.com/daarkdemon',
     icon: 'icon.png',
     contentRating: paperback_extensions_common_1.ContentRating.MATURE,
-    websiteBaseURL: SKYMANGAS_DOMAIN,
+    websiteBaseURL: XS_DOMAIN,
     sourceTags: [
         {
             text: 'Notifications',
             type: paperback_extensions_common_1.TagType.GREEN
         },
         {
-            text: 'Spanish',
-            type: paperback_extensions_common_1.TagType.GREY
+            text: 'CloudFlare',
+            type: paperback_extensions_common_1.TagType.RED
         }
     ]
 };
-class SkyMangas extends MangaStream_1.MangaStream {
+class XcalibrScans extends MangaStream_1.MangaStream {
     constructor() {
         //FOR ALL THE SELECTIONS, PLEASE CHECK THE MangaSteam.ts FILE!!!
         super(...arguments);
-        this.baseUrl = SKYMANGAS_DOMAIN;
-        this.languageCode = paperback_extensions_common_1.LanguageCode.SPANISH;
-        //----DATE SETTINGS
-        this.dateMonths = {
-            january: 'enero',
-            february: 'febrero',
-            march: 'marzo',
-            april: 'abril',
-            may: 'mayo',
-            june: 'junio',
-            july: 'julio',
-            august: 'agosto',
-            september: 'septiembre',
-            october: 'octubre',
-            november: 'noviembre',
-            december: 'diciembre'
-        };
-        this.dateTimeAgo = {
-            now: ['less than an hour', 'just now'],
-            yesterday: ['ayer'],
-            years: ['año', 'ano'],
-            months: ['mes', 'meses'],
-            weeks: ['semana', 'semanas'],
-            days: ['día', 'dia', 'dias'],
-            hours: ['hora'],
-            minutes: ['minutre'],
-            seconds: ['segundo']
-        };
+        this.baseUrl = XS_DOMAIN;
+        this.languageCode = paperback_extensions_common_1.LanguageCode.ENGLISH;
+        this.requestManager = createRequestManager({
+            requestsPerSecond: 1.5,
+            requestTimeout: 15000,
+        });
         //----MANGA DETAILS SELECTORS
-        this.manga_selector_author = 'Autor';
-        this.manga_selector_artist = 'Artista';
-        this.manga_selector_status = 'Estado';
         /*
         If a website uses different names/words for the status below, change them to these.
-        These must also be changed if a different language is used!
+        These must also be changed id a different language is used!
         Don't worry, these are case insensitive.
         */
-        /*
-            manga_StatusTypes = {
-                ONGOING: "En cours",
-                COMPLETED: "Terminée"
-            }
-        */
+        this.manga_StatusTypes = {
+            ONGOING: "ongoing, daily release",
+            COMPLETED: "completed"
+        };
         //----HOMESCREEN SELECTORS
         //Disabling some of these will cause some Home-Page tests to fail, edit these test files to match the setting.
         //Always be sure to test this in the app!
+        this.userAgentRandomizer = '';
         this.homescreen_PopularToday_enabled = true;
-        this.homescreen_PopularToday_selector = 'h2:contains(Popular Hoy)';
         this.homescreen_LatestUpdate_enabled = true;
-        this.homescreen_LatestUpdate_selector_box = 'h2:contains(Actualizaciones)';
         this.homescreen_NewManga_enabled = false;
         this.homescreen_TopAllTime_enabled = true;
         this.homescreen_TopMonthly_enabled = true;
@@ -1859,13 +1831,9 @@ class SkyMangas extends MangaStream_1.MangaStream {
         tags_selector_item: string = "li"
         tags_selector_label: string = "span"
         */
-        this.tags_SubdirectoryPathName = '';
-        this.tags_selector_box = 'ul.genre';
-        this.tags_selector_item = 'li';
-        this.tags_selector_label = '';
     }
 }
-exports.SkyMangas = SkyMangas;
+exports.XcalibrScans = XcalibrScans;
 
 },{"../MangaStream":58,"paperback-extensions-common":14}]},{},[60])(60)
 });
