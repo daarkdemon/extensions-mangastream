@@ -1780,10 +1780,6 @@ exports.XcalibrScansInfo = {
         {
             text: 'Notifications',
             type: paperback_extensions_common_1.TagType.GREEN
-        },
-        {
-            text: 'CloudFlare',
-            type: paperback_extensions_common_1.TagType.RED
         }
     ]
 };
