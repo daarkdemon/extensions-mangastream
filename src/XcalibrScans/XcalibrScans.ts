@@ -26,10 +26,6 @@ export const XcalibrScansInfo: SourceInfo = {
         {
             text: 'Notifications',
             type: TagType.GREEN
-        },
-        {
-            text: 'CloudFlare',
-            type: TagType.RED
         }
     ]
 }

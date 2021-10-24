@@ -25,14 +25,13 @@ describe('XcalibrScans Tests', () => {
     it('Retrieve Manga Details', async () => {
         const details = await wrapper.getMangaDetails(source, mangaId)
         expect(details, 'No results found with test-defined ID [' + mangaId + ']').to.exist
-        console.log(details)
         // Validate that the fields are filled
         const data = details
         expect(data.image, 'Missing Image').to.be.not.empty
         expect(data.status, 'Missing Status').to.exist
         expect(data.desc, 'Missing Description').to.be.not.empty
         expect(data.titles, 'Missing Titles').to.be.not.empty
-        expect(data.rating, 'Missing Rating').to.exist
+        expect(data.rating, 'Missing Rating').to.be.not.null
     })
 
     it('Get Chapters', async () => {
@@ -48,8 +47,8 @@ describe('XcalibrScans Tests', () => {
 
     it('Get Chapter Details', async () => {
         const chapters = await wrapper.getChapters(source, mangaId)
-        //      const chapter = chapters[0]
-        //        console.log(chapter)
+              const chapter = chapters[0]
+               console.log(chapter)
 
         const data = await wrapper.getChapterDetails(source, mangaId, chapters[0]?.id ?? 'unknown')
         expect(data, 'No server response').to.exist
